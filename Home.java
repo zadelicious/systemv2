@@ -147,13 +147,10 @@ public class Home extends javax.swing.JFrame {
             new Login().setVisible(true);
         }
     }//GEN-LAST:event_btnlogoutActionPerformed
-    private ManageOrder manageOrder;  // Declare ManageOrder reference at the top of Home class
+
     private ManageCategory manageCategory;
     private void btnproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductActionPerformed
         // TODO add your handling code here:
-        if (manageOrder == null) {
-            manageOrder = new ManageOrder(currentUserRole, currentUserName);  // Initialize ManageOrder if not already done
-        }
         new ManageProduct(currentUserRole, currentUserName).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnproductActionPerformed

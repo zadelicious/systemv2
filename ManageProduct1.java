@@ -32,18 +32,12 @@ public class ManageProduct1 extends javax.swing.JFrame {
     private int productPk = 0;
     private String currentUserRole;
     private String currentUserName;
-    private ManageOrder manageOrder;
+
     /**
      * Creates new form ManageProduct
      */
-    public ManageProduct1(ManageOrder order) {
-    this.manageOrder = order;
-    initComponents();
-    refresh();
-}
-
     public ManageProduct1() {
-        
+
         initComponents();
         String role = null;
         setLocationRelativeTo(null);
@@ -51,7 +45,6 @@ public class ManageProduct1 extends javax.swing.JFrame {
         currentUserRole = role;
         this.currentUserRole = role;
         refresh();
-       
 
         DefaultTableModel model = (DefaultTableModel) tableProduct.getModel();
         tableProduct.setModel(new DefaultTableModel(model.getDataVector(), getColumnNames(model)) {
@@ -456,58 +449,54 @@ public class ManageProduct1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-      String names = name.getText();
-    String quans = quan.getText();
-    String prices = price.getText();
-    String descs = desc.getText();
-    String categorys = cat.getSelectedItem().toString();
+        String names = name.getText();
+        String quans = quan.getText();
+        String prices = price.getText();
+        String descs = desc.getText();
+        String categorys = cat.getSelectedItem().toString();
 
-    if (names.isEmpty() || quans.isEmpty() || prices.isEmpty() || descs.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "All fields are required.");
-        return;
-    }
-
-    try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventorymanagement", "root", "");
-
-        // Check if the product already exists
-        String checkQuery = "SELECT COUNT(*) FROM product WHERE name = ? AND category = ?";
-        ps = con.prepareStatement(checkQuery);
-        ps.setString(1, names);
-        ps.setString(2, categorys);
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        int count = rs.getInt(1);
-
-        if (count > 0) {
-            JOptionPane.showMessageDialog(null, "Product already exists.");
-        } else {
-            // Database logic for adding a new product
-            String insertQuery = "INSERT INTO product (name, quantity, price, description, category) VALUES (?, ?, ?, ?, ?)";
-            ps = con.prepareStatement(insertQuery);
-            ps.setString(1, names);
-            ps.setString(2, quans);
-            ps.setString(3, prices);
-            ps.setString(4, descs);
-            ps.setString(5, categorys);
-
-            int rowsAffected = ps.executeUpdate(); // Execute the insert query
-            if (rowsAffected > 0) {  // Check if the product was added successfully
-                JOptionPane.showMessageDialog(null, "Product Added Successfully!");
-                refresh();
-
-                // If ManageOrder is passed, call the refresh method to update the product list in ManageOrder
-                if (manageOrder != null) {
-                    manageOrder.refresh();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to add product.");
-            }
+        if (names.isEmpty() || quans.isEmpty() || prices.isEmpty() || descs.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields are required.");
+            return;
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-    }
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventorymanagement", "root", "");
+
+            // Check if the product already exists
+            String checkQuery = "SELECT COUNT(*) FROM product WHERE name = ? AND category = ?";
+            ps = con.prepareStatement(checkQuery);
+            ps.setString(1, names);
+            ps.setString(2, categorys);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+
+            if (count > 0) {
+                JOptionPane.showMessageDialog(null, "Product already exists.");
+            } else {
+                // Database logic for adding a new product
+                String insertQuery = "INSERT INTO product (name, quantity, price, description, category) VALUES (?, ?, ?, ?, ?)";
+                ps = con.prepareStatement(insertQuery);
+                ps.setString(1, names);
+                ps.setString(2, quans);
+                ps.setString(3, prices);
+                ps.setString(4, descs);
+                ps.setString(5, categorys);
+
+                int rowsAffected = ps.executeUpdate(); // Execute the insert query
+                if (rowsAffected > 0) {  // Check if the product was added successfully
+                    JOptionPane.showMessageDialog(null, "Product Added Successfully!");
+                    refresh();
+
+                    // If ManageOrder is passed, call the refresh method to update the product list in ManageOrder
+
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
     }//GEN-LAST:event_saveActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed

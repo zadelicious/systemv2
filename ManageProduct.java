@@ -32,15 +32,9 @@ public class ManageProduct extends javax.swing.JFrame {
     private int productPk = 0;
     private String currentUserRole;
     private String currentUserName;
-    private ManageOrder manageOrder;
     /**
      * Creates new form ManageProduct
      */
-    public ManageProduct(ManageOrder order) {
-    this.manageOrder = order;
-    initComponents();
-    refresh();
-}
 
     public ManageProduct() {
         
@@ -320,18 +314,14 @@ public class ManageProduct extends javax.swing.JFrame {
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
          // TODO add your handling code here:
-        if (manageOrder == null) {
-            manageOrder = new ManageOrder(currentUserRole, currentUserName);  // Initialize ManageOrder if not already done
-        }
+
         new ManageProduct1(currentUserRole, currentUserName).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_saveActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
          // TODO add your handling code here:
-        if (manageOrder == null) {
-            manageOrder = new ManageOrder(currentUserRole, currentUserName);  // Initialize ManageOrder if not already done
-        }
+
         new ManageCategory(currentUserRole, currentUserName).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_updateActionPerformed
